@@ -9,43 +9,45 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f1f5f9; /* slate-100 */
         }
-        .menu-item.active > .menu-content {
+        .menu-item.active {
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+        }
+        .menu-item .menu-content {
+            display: none;
+        }
+        .menu-item.active .menu-content {
             display: block;
         }
         .menu-item > .menu-header {
             cursor: pointer;
-        }
-        .menu-content {
-            display: none;
-            border-left: 2px solid #e5e7eb;
-        }
-        .advice {
-            background-color: #fefce8; /* yellow-50 */
-            border-left: 4px solid #facc15; /* yellow-400 */
-        }
-        .setting-item {
             transition: background-color 0.2s ease-in-out;
         }
-        .setting-item:hover {
-            background-color: #f9fafb; /* gray-50 */
+        .menu-header:hover {
+            background-color: #f8fafc; /* slate-50 */
         }
-        .menu-header .arrow {
+        .advice {
+            background-color: #f0f9ff; /* sky-50 */
+            border-left: 4px solid #7dd3fc; /* sky-300 */
+            color: #0c4a6e; /* sky-900 */
+        }
+        .arrow-icon {
             transition: transform 0.2s ease-in-out;
         }
-        .menu-item.active > .menu-header .arrow {
+        .menu-item.active > .menu-header .arrow-icon {
             transform: rotate(90deg);
         }
     </style>
 </head>
-<body class="bg-gray-100 text-gray-800 p-4 sm:p-6 md:p-8">
-    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div class="p-6 bg-gray-900 text-white">
-            <h1 class="text-3xl font-bold">Sony a7C II Interactive Menu Guide</h1>
-            <p class="mt-2 text-gray-300">A complete hierarchical breakdown of the menu structure with expert advice for each setting. Click on any category to expand or collapse it.</p>
+<body class="text-slate-800 p-4 sm:p-6 md:p-8">
+    <div class="max-w-4xl mx-auto bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl shadow-slate-900/10 overflow-hidden border border-slate-200/80">
+        <div class="p-6 sm:p-8 bg-slate-900 text-white">
+            <h1 class="text-3xl sm:text-4xl font-bold tracking-tight">Sony a7C II Menu Guide</h1>
+            <p class="mt-2 text-slate-300 max-w-2xl">A minimal, interactive breakdown of the menu system with pro advice. Click a category to see the settings.</p>
         </div>
 
-        <div id="menu-container" class="p-6 space-y-2">
+        <div id="menu-container" class="p-4 sm:p-6 space-y-4">
             <!-- Menu items will be injected here by JavaScript -->
         </div>
     </div>
@@ -268,34 +270,37 @@
 
         menuData.forEach(category => {
             const categoryElem = document.createElement('div');
-            categoryElem.className = 'menu-item border border-gray-200 rounded-lg';
-            categoryElem.innerHTML = `
-                <div class="menu-header flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+            categoryElem.className = 'menu-item bg-white/50 border border-slate-200/80 rounded-2xl shadow-sm transition-all duration-300 ease-in-out';
+            
+            const headerHTML = `
+                <div class="menu-header flex items-center justify-between p-4 rounded-lg">
                     <div class="flex items-center">
                         <span class="text-2xl mr-4">${category.icon}</span>
-                        <h2 class="text-xl font-semibold text-gray-800">${category.title}</h2>
+                        <h2 class="text-lg font-semibold text-slate-800">${category.title}</h2>
                     </div>
-                    <span class="arrow text-gray-500 transform">▶</span>
+                    <svg class="arrow-icon w-5 h-5 text-slate-500 shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+                    </svg>
                 </div>
-                <div class="menu-content pl-6 pr-4 pb-4"></div>
             `;
 
-            const menuContent = categoryElem.querySelector('.menu-content');
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'menu-content px-4 pb-4';
 
             category.items.forEach(group => {
                 const groupElem = document.createElement('div');
-                groupElem.className = 'mt-4';
-                groupElem.innerHTML = `<h3 class="text-lg font-bold text-indigo-700 mb-2">${group.group}</h3>`;
+                groupElem.className = 'mt-2';
+                groupElem.innerHTML = `<h3 class="text-sm font-semibold text-slate-500 mb-2 tracking-wide uppercase px-1">${group.group}</h3>`;
 
                 const settingsList = document.createElement('div');
-                settingsList.className = 'space-y-3';
+                settingsList.className = 'space-y-2';
                 group.settings.forEach(setting => {
                     const settingElem = document.createElement('div');
-                    settingElem.className = 'setting-item py-3 border-b border-gray-200 last:border-b-0';
+                    settingElem.className = 'setting-item p-4 rounded-xl bg-slate-100/70';
                     settingElem.innerHTML = `
-                        <p class="font-semibold text-gray-700">${setting.name}</p>
-                        <p class="text-sm text-gray-500 mt-1">${setting.description}</p>
-                        <div class="advice p-3 mt-2 rounded-md text-sm text-yellow-800">
+                        <p class="font-semibold text-slate-700">${setting.name}</p>
+                        <p class="text-sm text-slate-500 mt-1">${setting.description}</p>
+                        <div class="advice p-3 mt-3 rounded-lg text-sm">
                             <span class="font-bold">Pro-Tip/Advice:</span> ${setting.advice}
                         </div>
                     `;
@@ -303,9 +308,11 @@
                 });
 
                 groupElem.appendChild(settingsList);
-                menuContent.appendChild(groupElem);
+                contentContainer.appendChild(groupElem);
             });
 
+            categoryElem.innerHTML = headerHTML;
+            categoryElem.appendChild(contentContainer);
             menuContainer.appendChild(categoryElem);
         });
 
