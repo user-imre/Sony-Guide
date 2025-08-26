@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sony a7C II Interactive Menu Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .menu-item.active > .menu-content {
+            display: block;
+        }
+        .menu-item > .menu-header {
+            cursor: pointer;
+        }
+        .menu-content {
+            display: none;
+            border-left: 2px solid #e5e7eb;
+        }
+        .advice {
+            background-color: #fefce8; /* yellow-50 */
+            border-left: 4px solid #facc15; /* yellow-400 */
+        }
+        .setting-item {
+            transition: background-color 0.2s ease-in-out;
+        }
+        .setting-item:hover {
+            background-color: #f9fafb; /* gray-50 */
+        }
+        .menu-header .arrow {
+            transition: transform 0.2s ease-in-out;
+        }
+        .menu-item.active > .menu-header .arrow {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 sm:p-6 md:p-8">
+    <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg overflow-hidden">
+        <div class="p-6 bg-gray-900 text-white">
+            <h1 class="text-3xl font-bold">Sony a7C II Interactive Menu Guide</h1>
+            <p class="mt-2 text-gray-300">A complete hierarchical breakdown of the menu structure with expert advice for each setting. Click on any category to expand or collapse it.</p>
+        </div>
+
+        <div id="menu-container" class="p-6 space-y-2">
+            <!-- Menu items will be injected here by JavaScript -->
+        </div>
+    </div>
+
+    <script>
+        const menuData = [
+            {
+                title: "Shooting Menu (Red Tab)",
+                icon: "📷",
+                items: [
+                    {
+                        group: "Image Quality/Rec",
+                        settings: [
+                            { name: "File Format (Stills)", description: "Sets the file format for still images (RAW, JPEG, HEIF, or combinations).", advice: "Set to RAW for the highest image quality and most flexibility in editing. Choose 'RAW & JPEG' if you need a quick-to-share version alongside the master RAW file. HEIF is a modern alternative to JPEG with better quality and smaller size, but ensure your software is compatible." },
+                            { name: "RAW File Type", description: "Selects the compression type for RAW images.", advice: "Use 'Lossless Compressed (L)'. It provides identical image quality to 'Uncompressed' but with a significantly smaller file size, which improves buffer performance for continuous shooting. 'Uncompressed' is unnecessarily large, and 'Compressed' (lossy) should only be used if card space is extremely limited." },
+                            { name: "JPEG/HEIF Quality", description: "Sets the compression level for JPEG or HEIF files.", advice: "Always use 'Extra Fine' to ensure the highest possible quality for your compressed files." },
+                            { name: "File Format (Movie)", description: "Sets the video codec and compression format (XAVC HS 4K, XAVC S 4K, XAVC S-I 4K).", advice: "For general use and a good balance of quality and file size, use 'XAVC S 4K'. For the absolute best editing performance on your computer, use 'XAVC S-I 4K' (creates very large files). 'XAVC HS 4K' offers the best compression (smallest files) but requires a powerful computer to edit smoothly." },
+                            { name: "Movie Settings", description: "Sets the frame rate, bit rate, and color depth for video.", advice: "For the highest quality and color grading flexibility, always choose a '10-bit 4:2:2' option. This captures over a billion colors, preventing banding and allowing for significant adjustments in post-production. Common frame rates are 24p for a cinematic look and 60p for smooth slow motion." },
+                            { name: "Log Shooting Setting", description: "Enables shooting in S-Log3 for maximum dynamic range in video.", advice: "Turn this ON for professional video workflows where you will be color grading. S-Log3 produces a very 'flat' image that retains the most detail in highlights and shadows, giving you complete creative control in post-production." },
+                            { name: "Proxy Settings", description: "Records a small, low-resolution proxy file alongside your main video file.", advice: "Enable this if you have a slower computer. You can edit using the small proxy files for smooth performance, then link back to the high-quality original files for the final export." },
+                            { name: "APS-C S35 Shooting", description: "Crops the sensor to APS-C size (1.5x zoom).", advice: "A very useful feature for video to get extra 'reach' from your lenses while still recording in 4K. Assign this to a custom button for a quick 'punch-in' effect." },
+                        ]
+                    },
+                    {
+                        group: "Shooting Mode",
+                        settings: [
+                            { name: "Exposure Ctrl Type (Movie)", description: "Sets how exposure is controlled in movie mode.", advice: "Set to 'P/A/S/M Mode' to have the main mode dial function just like it does for photos. 'Flexible Exp. Mode' allows individual control over aperture, shutter, and ISO (auto/manual switching), which is preferred by advanced videographers." },
+                            { name: "Camera Set. Memory", description: "Saves your current camera settings to the 1, 2, or 3 slots on the mode dial.", advice: "This is a powerful workflow hack. Set up your camera perfectly for different scenarios (e.g., Slot 1 for 4K 24p cinematic video, Slot 2 for 4K 60p slow motion, Slot 3 for high-speed photography) and save them here. You can then instantly switch between complex setups just by turning the mode dial." },
+                        ]
+                    },
+                    {
+                        group: "Drive Mode",
+                        settings: [
+                            { name: "Drive Mode", description: "Sets single, continuous, self-timer, or bracketing modes.", advice: "For stills, 'Cont. Shooting: Hi+' gives you the maximum 10fps for capturing action. For landscapes on a tripod, use 'Self-timer: 2 sec' to eliminate camera shake from pressing the shutter button." },
+                            { name: "Bracket Settings", description: "Configures settings for exposure, white balance, or focus bracketing.", advice: "Use exposure bracketing for high-contrast landscape scenes (like sunsets) to merge into an HDR image later. Use Focus Bracketing for macro or landscape shots to achieve deep depth-of-field through focus stacking." },
+                            { name: "Interval Shoot Func.", description: "Automates shooting a sequence of still images for creating a time-lapse video.", advice: "Use this to capture long sequences. You can then assemble the resulting still images into a high-resolution time-lapse video using Sony's Imaging Edge Desktop software." },
+                        ]
+                    },
+                    {
+                        group: "Shutter/Silent",
+                        settings: [
+                            { name: "Shutter Type", description: "Selects between Mechanical (EFCS) and Electronic shutter.", advice: "Use 'Mechanical Shutter' (which is actually an Electronic First-Curtain Shutter) for general photography to avoid rolling shutter distortion. Use 'Electronic Shutter' for completely silent shooting, but be aware it can cause banding under artificial lights and distort very fast-moving subjects." },
+                            { name: "Release w/o Card", description: "Allows the shutter to fire even if no memory card is inserted.", advice: "Set this to 'Disable'. This is a critical safety setting to prevent you from accidentally shooting an entire session without saving any images." },
+                            { name: "Anti-flicker Set.", description: "Reduces flickering from artificial light sources.", advice: "Set 'Anti-flicker Shoot.' to 'On' for indoor sports or events under fluorescent lights. Use 'Var. Shutter' for more complex LED lighting or when shooting digital screens to manually dial in a shutter speed that eliminates banding." },
+                        ]
+                    },
+                    {
+                        group: "Image Stabilization",
+                        settings: [
+                            { name: "SteadyShot (Stills)", description: "Controls the in-body image stabilization for photos.", advice: "Set to 'On' for handheld shooting. Turn it 'Off' only when the camera is on a very sturdy tripod to prevent the system from trying to correct for non-existent movement." },
+                            { name: "SteadyShot (Movie)", description: "Controls stabilization for video.", advice: "'Standard' is for tripod shots. 'Active' is the best all-around setting for handheld shooting, providing excellent stabilization with a slight crop. For the absolute best results, turn SteadyShot 'Off', record gyro data, and stabilize the footage in post-production using Sony's Catalyst Browse software." },
+                        ]
+                    },
+                     {
+                        group: "Audio Recording",
+                        settings: [
+                            { name: "Audio Rec Level", description: "Manually sets the audio input level.", advice: "Avoid auto levels. Manually set this to a level where the audio peaks hit around -12dB on the meter for clean, un-clipped audio. A good starting point is often around level 26." },
+                            { name: "Wind Noise Reduct.", description: "A digital filter to reduce wind noise.", advice: "Turn this 'Off' when using a good external microphone, as it can degrade the overall audio quality. It's only useful for the internal microphones in windy conditions." },
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Exposure/Color Menu (Magenta Tab)",
+                icon: "🎨",
+                items: [
+                    {
+                        group: "Exposure",
+                        settings: [
+                            { name: "ISO", description: "Sets the sensor's sensitivity to light.", advice: "Use 'ISO AUTO' for most situations. To control its behavior, set an 'ISO Range Limit' (e.g., 100-12800) to prevent the camera from using excessively high, noisy ISOs." },
+                            { name: "ISO AUTO Min. SS", description: "Sets the slowest shutter speed the camera will use before increasing ISO in P and A modes.", advice: "This is a powerful tool to control motion blur. For moving subjects, set a specific speed like 1/250s. For general use, the 'Standard' or 'Faster' settings will automatically adjust based on your lens's focal length." },
+                        ]
+                    },
+                    {
+                        group: "Metering",
+                        settings: [
+                            { name: "Metering Mode", description: "Determines how the camera measures brightness.", advice: "Use 'Multi' as the default. For portraits or vlogging, ensure 'Face Priority in Multi Metering' is set to 'On' to prioritize correct exposure on faces. Use 'Highlight' mode for high-contrast scenes like weddings to protect highlight detail (e.g., a white dress)." },
+                            { name: "AEL w/ Shutter", description: "Locks exposure with a half-press of the shutter.", advice: "Set to 'Off' if you use the 'back-button focus' technique, which decouples focusing from the shutter button, giving you separate control over focus and exposure lock." },
+                        ]
+                    },
+                    {
+                        group: "White Balance",
+                        settings: [
+                            { name: "White Balance", description: "Corrects for color casts from different light sources.", advice: "AWB (Auto) is very reliable. For creative control, especially during sunrises or sunsets, set it to a preset like 'Daylight' or 'Cloudy' to preserve the warm or cool tones that Auto WB might try to neutralize." },
+                            { name: "Priority Set in AWB", description: "Fine-tunes the Auto White Balance behavior.", advice: "'Standard' is balanced. 'Ambience' preserves warm tones from indoor lighting, which is great for atmosphere. 'White' will aggressively neutralize color casts to render pure whites." },
+                        ]
+                    },
+                    {
+                        group: "Color/Tone",
+                        settings: [
+                            { name: "Creative Look", description: "Applies different color and contrast profiles to JPEGs and non-Log video.", advice: "This is the primary tool for in-camera styling. 'ST' (Standard) is neutral. 'PT' (Portrait) is optimized for skin tones. 'VV2' (Vivid 2) is great for vibrant landscapes. Experiment and customize these to your taste." },
+                            { name: "Picture Profile", description: "Advanced color profiles primarily for video.", advice: "For video, 'PP11' is S-Cinetone, which gives a beautiful, cinematic look straight out of the camera. 'PP8' is S-Log3 for professional color grading. For photography, it's best to leave this 'Off' and use Creative Looks instead." },
+                            { name: "Zebra Display", description: "Overlays a stripe pattern on parts of the image that reach a certain brightness level.", advice: "An essential exposure tool for video. Set a custom level to monitor skin tone exposure (e.g., 95 IRE for stills, or a custom range around 41% for S-Log3 skin tones) and to avoid clipping highlights." },
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Focus Menu (Purple Tab)",
+                icon: "🎯",
+                items: [
+                    {
+                        group: "AF/MF",
+                        settings: [
+                            { name: "Focus Mode", description: "Sets the autofocus behavior (AF-S, AF-C, DMF, MF).", advice: "Set to 'AF-C' (Continuous AF) as your default for both stills and video. The camera's AI tracking is designed to work best in this mode, continuously keeping your subject sharp whether they are moving or static." },
+                            { name: "AF Transition Speed (Movie)", description: "Controls the speed of focus pulls in video.", advice: "Set to a lower number (e.g., 2 or 3) for smooth, cinematic focus racks. Set to a higher number (e.g., 6 or 7) for fast, documentary-style focus changes." },
+                            { name: "AF Subj. Shift Sensitivity (Movie)", description: "Determines how 'sticky' the AF is on a tracked subject in video.", advice: "Set to '1 (Locked on)' to keep focus on your main subject even if something briefly passes in front of them. Set to '5 (Responsive)' if you want the camera to quickly switch focus to a new subject that enters the frame." },
+                        ]
+                    },
+                    {
+                        group: "Focus Area",
+                        settings: [
+                            { name: "Focus Area", description: "Determines which part of the frame the camera uses to acquire focus.", advice: "Use 'Wide' combined with Subject Recognition and let the camera automatically find the subject. For more precision, use 'Tracking: Spot' or 'Tracking: Expand Spot'. Place the starting point on your subject, half-press the shutter, and the camera will intelligently track it across the entire frame." },
+                        ]
+                    },
+                    {
+                        group: "Subject Recognition",
+                        settings: [
+                            { name: "Subject Recog in AF", description: "The master switch for the AI-powered subject detection.", advice: "This must be set to 'On' to use the camera's best autofocus features." },
+                            { name: "Recognition Target", description: "Tells the AI what kind of subject to look for.", advice: "Be specific for the best results. Choose 'Human', 'Animal/Bird', 'Car/Train', etc. The camera will be significantly more accurate than when left on 'Auto'." },
+                            { name: "Right/Left Eye Select", description: "Prioritizes focus on the subject's right or left eye.", advice: "For portraiture, this is a key professional feature. Set it to 'Right Eye' or 'Left Eye' to ensure you are focusing on the eye closest to the camera, or leave on 'Auto' for general use." },
+                            { name: "Face Memory", description: "Allows you to register specific faces for the camera to prioritize.", advice: "Invaluable for event or wedding photographers. Register the faces of the key people (e.g., bride and groom), and the camera will prioritize them over all other faces in the frame." },
+                        ]
+                    },
+                    {
+                        group: "Focus Assistant",
+                        settings: [
+                            { name: "Focus Magnifier", description: "Provides a magnified view to check focus.", advice: "Essential for critical manual focusing in macro, landscape, or astrophotography. Assign this to a custom button for quick access." },
+                            { name: "Peaking Display", description: "Highlights the in-focus areas of the image with a color.", advice: "Turn this 'On' when in Manual Focus. It provides a clear, immediate visual confirmation of what is sharp, making manual focusing much faster and more accurate. Red is a common and highly visible color choice." },
+                            { name: "Focus Map (Movie)", description: "A visual aid for video manual focus that shows depth of field with colors.", advice: "A revolutionary feature for videographers. It uses colors to show what is in front of (blue) and behind (orange) the plane of focus, giving you an intuitive way to perform precise manual focus pulls." },
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Playback Menu (Blue Tab)",
+                icon: "🖼️",
+                items: [
+                     {
+                        group: "Playback Option",
+                        settings: [
+                            { name: "Display Rotation", description: "Automatically rotates vertical images during playback.", advice: "Set this to 'Off'. This will display vertical images using the full height of the horizontal screen, making them appear much larger and easier to review." },
+                            { name: "Display as Group", description: "Groups continuously shot images together.", advice: "Set to 'On'. This keeps your burst sequences organized as a single item on the playback screen, making it much faster to navigate through your shots." },
+                        ]
+                    },
+                    {
+                        group: "Selection/Memo",
+                        settings: [
+                            { name: "Rating", description: "Assigns a 1-5 star rating to images.", advice: "Use this in-camera to mark your best shots. This rating information can be read by software like Adobe Lightroom, speeding up your culling and editing workflow significantly." },
+                            { name: "Protect", description: "Locks an image to prevent accidental deletion.", advice: "Use this to safeguard your most critical shots from being accidentally erased in-camera." },
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Network Menu (Green Tab)",
+                icon: "🌐",
+                items: [
+                    {
+                        group: "Cnct./PC Remote",
+                        settings: [
+                            { name: "Smartphone Connection", description: "Manages the connection to a smartphone via the Creators' App.", advice: "Use this to pair your camera with your phone for remote control, live view, and image transfer. It's also required for geotagging your photos with your phone's GPS." },
+                        ]
+                    },
+                    {
+                        group: "Network Option",
+                        settings: [
+                            { name: "Airplane Mode", description: "Disables all wireless functions (Wi-Fi and Bluetooth).", advice: "Turn this 'On' whenever you are not actively using wireless features. It will significantly conserve battery life." },
+                        ]
+                    }
+                ]
+            },
+            {
+                title: "Setup Menu (Yellow Tab)",
+                icon: "⚙️",
+                items: [
+                    {
+                        group: "Operation Customize",
+                        settings: [
+                            { name: "Custom Key/Dial Set.", description: "Reassigns the function of almost every button and dial.", advice: "This is where you truly make the camera your own. Customize buttons for your most-used functions (e.g., APS-C Crop, Peaking Display, Focus Magnifier). You can set up completely different layouts for photo and video modes." },
+                            { name: "Fn Menu Settings", description: "Customizes the 12 slots in the quick-access Function (Fn) menu.", advice: "Populate this with the settings you change most often during a shoot, like Drive Mode, Focus Area, Subject Recognition Target, and Shutter Type. Create separate, optimized Fn menus for your photo and video workflows." },
+                        ]
+                    },
+                    {
+                        group: "Finder/Monitor",
+                        settings: [
+                            { name: "Monitor Brightness", description: "Adjusts the brightness of the rear LCD screen.", advice: "For shooting in bright sunlight, change this from 'Manual' to 'Sunny Weather'. This makes the screen much more visible, though it will consume more battery." },
+                        ]
+                    },
+                    {
+                        group: "Power Setting Option",
+                        settings: [
+                            { name: "Auto Power OFF Temp.", description: "Sets the temperature at which the camera will automatically shut down to prevent overheating.", advice: "This is the single most important setting to change out of the box. Set it from 'Standard' to 'High'. This allows the camera to record video for much longer periods before shutting down, especially in warm conditions." },
+                        ]
+                    },
+                    {
+                        group: "Setup Option",
+                        settings: [
+                            { name: "Anti-dust Function > Shutter When Pwr OFF", description: "Closes the physical shutter when the camera is turned off.", advice: "Set this to 'On'. This is a crucial feature that protects your image sensor from dust when you are changing lenses." },
+                        ]
+                    },
+                    {
+                        group: "Reset/Save Settings",
+                        settings: [
+                             { name: "Save/Load Settings", description: "Saves your entire camera configuration to the memory card.", advice: "After you've customized your camera, use this to save your setup. It serves as a perfect backup and allows you to quickly load your preferred settings onto another a7C II body." },
+                             { name: "Setting Reset", description: "Resets camera settings to factory defaults.", advice: "Use 'Initialize' to perform a full factory reset. Use 'Camera Settings Reset' to reset only the main shooting functions without affecting deeper customizations." },
+                        ]
+                    },
+                    {
+                        group: "My Menu Setting",
+                        settings: [
+                            { name: "Add Item / Sort Item", description: "Customizes the 'My Menu' tab.", advice: "Use this to build your own personalized menu page. Add your most frequently accessed but deeply buried settings here, such as 'Format', 'Copyright Info', and 'Airplane Mode', for quick access." },
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const menuContainer = document.getElementById('menu-container');
+
+        menuData.forEach(category => {
+            const categoryElem = document.createElement('div');
+            categoryElem.className = 'menu-item border border-gray-200 rounded-lg';
+            categoryElem.innerHTML = `
+                <div class="menu-header flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <span class="text-2xl mr-4">${category.icon}</span>
+                        <h2 class="text-xl font-semibold text-gray-800">${category.title}</h2>
+                    </div>
+                    <span class="arrow text-gray-500 transform">▶</span>
+                </div>
+                <div class="menu-content pl-6 pr-4 pb-4"></div>
+            `;
+
+            const menuContent = categoryElem.querySelector('.menu-content');
+
+            category.items.forEach(group => {
+                const groupElem = document.createElement('div');
+                groupElem.className = 'mt-4';
+                groupElem.innerHTML = `<h3 class="text-lg font-bold text-indigo-700 mb-2">${group.group}</h3>`;
+
+                const settingsList = document.createElement('div');
+                settingsList.className = 'space-y-3';
+                group.settings.forEach(setting => {
+                    const settingElem = document.createElement('div');
+                    settingElem.className = 'setting-item py-3 border-b border-gray-200 last:border-b-0';
+                    settingElem.innerHTML = `
+                        <p class="font-semibold text-gray-700">${setting.name}</p>
+                        <p class="text-sm text-gray-500 mt-1">${setting.description}</p>
+                        <div class="advice p-3 mt-2 rounded-md text-sm text-yellow-800">
+                            <span class="font-bold">Pro-Tip/Advice:</span> ${setting.advice}
+                        </div>
+                    `;
+                    settingsList.appendChild(settingElem);
+                });
+
+                groupElem.appendChild(settingsList);
+                menuContent.appendChild(groupElem);
+            });
+
+            menuContainer.appendChild(categoryElem);
+        });
+
+        document.querySelectorAll('.menu-header').forEach(header => {
+            header.addEventListener('click', () => {
+                header.parentElement.classList.toggle('active');
+            });
+        });
+
+    </script>
+</body>
+</html>
+
